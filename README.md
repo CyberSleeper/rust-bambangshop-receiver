@@ -85,5 +85,14 @@ This is the place for you to write reflections:
 ### Mandatory (Subscriber) Reflections
 
 #### Reflection Subscriber-1
+1. Both RwLock and Mutex control access to shared data by different threads. They prevent data races, which can corrupt information.
+
+- RwLock (Read-Write Lock): Great for situations with many readers and few writers. Multiple threads can read data at once, but only one can write at a time. This is ideal for something like notifications, where you might have many readers (fetching notifications) but fewer writers (updating notifications).
+
+- Mutex (Mutual Exclusion): Only allows one thread to access the data, regardless of reading or writing. This can slow things down if reads are frequent. With notifications, using Mutex even for reading would be inefficient.
+
+Therefore, for scenarios with mostly reading (like notifications), RwLock is better for performance because it allows for more concurrent access.
+
+2. In Rust, static variables are truly constant, their value is set at compile time and cannot be changed at runtime. This is different from Java, where static just means the variable belongs to the class, not an instance. The reason is because Rust's focus on safety. Mutable static variables can lead to data races, which are the common cause of bugs. Therefore, Rust provide a way to have global, mutable state through the use of `lazy_static` crate. This is useful for things like database connections, where you want to initialize the connection once and share it across the application.
 
 #### Reflection Subscriber-2
